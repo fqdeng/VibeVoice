@@ -72,7 +72,7 @@ class VibeVoiceDemo:
                     attn_impl_primary = "flash_attention_2"
                     print(f"GPU architecture {gpu_arch} detected: using flash_attention_2")
                 else:  # Turing and older
-                    attn_impl_primary = "flash_attention"
+                    attn_impl_primary = "sdpa"
                     print(f"GPU architecture {gpu_arch} detected: using flash_attention (older GPU)")
             else:
                 attn_impl_primary = "flash_attention_2"  # fallback default
