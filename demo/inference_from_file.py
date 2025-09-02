@@ -264,6 +264,11 @@ def main():
     elif args.device == "cuda":
         load_dtype = torch.bfloat16
         attn_impl_primary = "flash_attention_2"
+        if torch.cuda.is_available():
+            gpu_arch = torch.cuda.get_device_capability(0)
+            if gpu_arch[0] < 8:
+                attn_impl_primary = "sdpa"
+                print(f"GPU architecture {gpu_arch} detected: using sdpa (older GPU)")
     else:  # cpu
         load_dtype = torch.float32
         attn_impl_primary = "sdpa"

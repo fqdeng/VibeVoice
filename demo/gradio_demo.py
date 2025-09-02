@@ -64,6 +64,11 @@ class VibeVoiceDemo:
         elif self.device == "cuda":
             load_dtype = torch.bfloat16
             attn_impl_primary = "flash_attention_2"
+            if torch.cuda.is_available():
+                gpu_arch = torch.cuda.get_device_capability(0)
+                if gpu_arch[0] < 8:
+                    attn_impl_primary = "sdpa"
+                    print(f"GPU architecture {gpu_arch} detected: using sdpa (older GPU)")
         else:
             load_dtype = torch.float32
             attn_impl_primary = "sdpa"
@@ -1231,7 +1236,7 @@ def main():
         ).launch(
             share=args.share,
             # server_port=args.port,
-            server_name="0.0.0.0" if args.share else "127.0.0.1",
+            server_name="0.0.0.0" if args.share else "0.0.0.0",
             show_error=True,
             show_api=False  # Hide API docs for cleaner interface
         )
