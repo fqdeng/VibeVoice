@@ -40,9 +40,26 @@ class VibeVoiceDemo:
         self.is_generating = False  # Track generation state
         self.stop_generation = False  # Flag to stop generation
         self.current_streamer = None  # Track current audio streamer
-        self.load_model()
+        self.model = None
+        self.processor = None
         self.setup_voice_presets()
         self.load_example_scripts()  # Load example scripts
+
+    def ensure_model_loaded(self):
+        """Ensure the model is loaded before use."""
+        if self.model is None or self.processor is None:
+            self.load_model()
+
+    def release_model(self):
+        """Release the model and free up memory."""
+        if self.model is not None:
+            print("Releasing model and freeing memory.")
+            del self.model
+            del self.processor
+            self.model = None
+            self.processor = None
+            if self.device == 'cuda':
+                torch.cuda.empty_cache()
         
     def load_model(self):
         """Load the VibeVoice model and processor."""
@@ -189,6 +206,7 @@ class VibeVoiceDemo:
                                  speaker_4: str = None,
                                  cfg_scale: float = 1.3) -> Iterator[tuple]:
         try:
+            self.ensure_model_loaded()
             
             # Reset stop flag and set generating state
             self.stop_generation = False
@@ -1032,6 +1050,8 @@ Or paste text directly and it will auto-assign speakers.""",
                 traceback.print_exc()
                 # Reset button states on error
                 yield None, gr.update(value=None, visible=False), error_msg, gr.update(visible=False), gr.update(visible=True), gr.update(visible=False)
+            finally:
+                demo_instance.release_model()
         
         def stop_generation_handler():
             """Handle stopping generation."""
