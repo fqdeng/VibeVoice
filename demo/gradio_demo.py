@@ -861,7 +861,7 @@ def create_demo_interface(demo_instance: VibeVoiceDemo):
                 
                 available_speaker_names = list(demo_instance.available_voices.keys())
                 # default_speakers = available_speaker_names[:4] if len(available_speaker_names) >= 4 else available_speaker_names
-                default_speakers = ['en-Alice_woman', 'en-Carter_man', 'en-Frank_man', 'en-Maya_woman']
+                default_speakers = ['zh-Bowen_man', 'zh-Xinran_woman', 'en-Frank_man', 'en-Maya_woman']
 
                 speaker_selections = []
                 for i in range(4):
