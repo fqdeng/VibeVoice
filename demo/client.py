@@ -1,9 +1,9 @@
-import warnings
-try:
-    import urllib3.exceptions
-    warnings.filterwarnings("ignore", category=urllib3.exceptions.NotOpenSSLWarning)
-except (ImportError, AttributeError):
-    pass
+# import warnings
+# try:
+#     import urllib3.exceptions
+#     warnings.filterwarnings("ignore", category=urllib3.exceptions.NotOpenSSLWarning)
+# except (ImportError, AttributeError):
+#     pass
 
 from gradio_client import Client
 
