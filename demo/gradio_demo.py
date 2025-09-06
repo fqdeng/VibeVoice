@@ -1258,7 +1258,7 @@ def main():
             # server_port=args.port,
             server_name="0.0.0.0" if args.share else "0.0.0.0",
             show_error=True,
-            show_api=False  # Hide API docs for cleaner interface
+            show_api=True  # Hide API docs for cleaner interface
         )
     except KeyboardInterrupt:
         print("\n🛑 Shutting down gracefully...")
